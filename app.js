@@ -1,5 +1,6 @@
 const express = require("express");
 const { getTopics } = require("./controllers/topics");
+const { getArticlesById } = require("./controllers/articles");
 const {
   handlePsqlErrors,
   handleServerErrors,
@@ -9,6 +10,7 @@ const {
 const app = express();
 
 app.get("/api/topics", getTopics);
+app.get("/api/articles/:article_id", getArticlesById);
 
 app.use(pageNotFoundErrors);
 app.use(handlePsqlErrors);
