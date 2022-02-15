@@ -49,4 +49,20 @@ describe("GET /api/articles/:article_id", () => {
         });
       });
   });
+  test("status:404, responds with an error message when invalid path given", () => {
+    return request(app)
+      .get(`/api/articles/notAnId`)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Invalid input");
+      });
+  });
+  test("status:404, responds with an error message when invalid path given", () => {
+    return request(app)
+      .get(`/api/articles/999999`)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe(`path not found`);
+      });
+  });
 });
