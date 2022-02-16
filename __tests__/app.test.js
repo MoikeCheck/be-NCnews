@@ -62,7 +62,7 @@ describe("GET /api/articles/:article_id", () => {
       .get(`/api/articles/999999`)
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe(`path not found`);
+        expect(body.msg).toBe(`No user found by this ID`);
       });
   });
 });

@@ -4,7 +4,7 @@ const { getArticlesById } = require("./controllers/articles");
 const {
   handlePsqlErrors,
   handleServerErrors,
-  pageNotFoundErrors,
+  customErrors,
 } = require("./errors/errors");
 
 const app = express();
@@ -15,7 +15,7 @@ app.get("/api/articles/:article_id", getArticlesById);
 app.all("/*", (req, res) => {
   res.status(404).send({ msg: "path not found" });
 });
-app.use(pageNotFoundErrors);
+app.use(customErrors);
 app.use(handlePsqlErrors);
 app.use(handleServerErrors);
 
