@@ -7,7 +7,7 @@ exports.selectArticlesById = (articleID) => {
       if (rows.length === 0) {
         return Promise.reject({
           status: 404,
-          msg: `No user found by this ID`,
+          msg: `No article found by this ID`,
         });
       }
       return rows[0];

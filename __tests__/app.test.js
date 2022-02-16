@@ -49,7 +49,7 @@ describe("GET /api/articles/:article_id", () => {
         });
       });
   });
-  test("status:404, responds with an error message when invalid path given", () => {
+  test("status:404, responds with an error message when invalid ID given", () => {
     return request(app)
       .get(`/api/articles/notAnId`)
       .expect(400)
@@ -57,12 +57,12 @@ describe("GET /api/articles/:article_id", () => {
         expect(body.msg).toBe("Invalid input");
       });
   });
-  test("status:404, responds with an error message when invalid path given", () => {
+  test("status:404, responds with an error message when valid ID doesn't exist", () => {
     return request(app)
       .get(`/api/articles/999999`)
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe(`No user found by this ID`);
+        expect(body.msg).toBe(`No article found by this ID`);
       });
   });
 });
