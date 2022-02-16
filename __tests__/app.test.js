@@ -73,7 +73,6 @@ describe("GET /api/articles", () => {
       .get("/api/articles")
       .expect(200)
       .then(({ body }) => {
-        console.log(body);
         body.article.forEach((element) => {
           expect(element).toMatchObject({
             author: expect.any(String),
