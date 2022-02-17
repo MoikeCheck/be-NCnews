@@ -72,13 +72,14 @@ describe("GET /api/users", () => {
     return request(app)
       .get("/api/users")
       .expect(200)
-      .then(({ body }) => {
-        body.users.forEach((element) => {
+      .then(({ body: { users } }) => {
+        users.forEach((element) => {
           expect(element).toMatchObject({
             username: expect.any(String),
             name: expect.any(String),
             avatar_url: expect.any(String),
           });
+          expect(users.length).toBe(4);
         });
       });
   });
