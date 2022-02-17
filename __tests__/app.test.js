@@ -86,6 +86,7 @@ describe("GET /api/users", () => {
   });
 });
 
+
 describe("GET /api/articles", () => {
   test("should respond with an array of article objects", () => {
     return request(app)
@@ -109,3 +110,4 @@ describe("GET /api/articles", () => {
       });
   });
 });
+
