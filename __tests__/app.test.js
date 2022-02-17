@@ -76,10 +76,16 @@ describe("GET /api/users", () => {
         users.forEach((element) => {
           expect(element).toMatchObject({
             username: expect.any(String),
-            name: expect.any(String),
-            avatar_url: expect.any(String),
           });
-          expect(users.length).toBe(4);
+          expect(element).toEqual(
+            expect.not.objectContaining({ body: expect.any(String) })
+          );
+        });
+        expect(users.length).toBe(4);
+      });
+  });
+});
+
 
 describe("GET /api/articles", () => {
   test("should respond with an array of article objects", () => {
@@ -96,11 +102,12 @@ describe("GET /api/articles", () => {
             created_at: expect.any(String),
             votes: expect.any(Number),
           });
-          expect(articles.length).toBe(12);
-
+          expect(element).toEqual(
+            expect.not.objectContaining({ body: expect.any(String) })
+          );
         });
+        expect(articles.length).toBe(12);
       });
   });
 });
-
 
