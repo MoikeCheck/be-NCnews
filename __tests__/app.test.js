@@ -82,8 +82,11 @@ describe("GET /api/articles", () => {
             created_at: expect.any(String),
             votes: expect.any(Number),
           });
-          expect(articles.length).toBe(12);
+          expect(element).toEqual(
+            expect.not.objectContaining({ body: expect.any(String) })
+          );
         });
+        expect(articles.length).toBe(12);
       });
   });
 });
