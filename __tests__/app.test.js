@@ -72,8 +72,8 @@ describe("GET /api/articles", () => {
     return request(app)
       .get("/api/articles")
       .expect(200)
-      .then(({ body }) => {
-        body.article.forEach((element) => {
+      .then(({ body: { article } }) => {
+        article.forEach((element) => {
           expect(element).toMatchObject({
             author: expect.any(String),
             title: expect.any(String),
@@ -82,6 +82,7 @@ describe("GET /api/articles", () => {
             created_at: expect.any(String),
             votes: expect.any(Number),
           });
+          expect(article.length).toBe(12);
         });
       });
   });
