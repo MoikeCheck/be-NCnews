@@ -7,7 +7,7 @@ const db = require("../db/connection");
 afterAll(() => db.end());
 beforeEach(() => seed(data));
 
-describe("getTopics", () => {
+describe("GET /api/topics", () => {
   test("should respond with an array of topic objects", () => {
     return request(app)
       .get("/api/topics")
@@ -66,3 +66,26 @@ describe("GET /api/articles/:article_id", () => {
       });
   });
 });
+
+describe("GET /api/articles", () => {
+  test("should respond with an array of article objects", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then(({ body: { articles } }) => {
+        articles.forEach((element) => {
+          expect(element).toMatchObject({
+            author: expect.any(String),
+            title: expect.any(String),
+            article_id: expect.any(Number),
+            topic: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+          });
+          expect(articles.length).toBe(12);
+        });
+      });
+  });
+});
+
+describe("GET /api/users", () => {});
