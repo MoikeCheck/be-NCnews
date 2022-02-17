@@ -67,6 +67,25 @@ describe("GET /api/articles/:article_id", () => {
   });
 });
 
+describe("GET /api/users", () => {
+  test("should respond with an array of user objects", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body: { users } }) => {
+        users.forEach((element) => {
+          expect(element).toMatchObject({
+            username: expect.any(String),
+          });
+          expect(element).toEqual(
+            expect.not.objectContaining({ body: expect.any(String) })
+          );
+        });
+        expect(users.length).toBe(4);
+      });
+  });
+});
+
 describe("GET /api/articles", () => {
   test("should respond with an array of article objects", () => {
     return request(app)
@@ -90,5 +109,3 @@ describe("GET /api/articles", () => {
       });
   });
 });
-
-describe("GET /api/users", () => {});
