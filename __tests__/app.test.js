@@ -67,6 +67,20 @@ describe("GET /api/articles/:article_id", () => {
   });
 });
 
+describe("GET /api/users", () => {
+  test("should respond with an array of user objects", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body: { users } }) => {
+        users.forEach((element) => {
+          expect(element).toMatchObject({
+            username: expect.any(String),
+            name: expect.any(String),
+            avatar_url: expect.any(String),
+          });
+          expect(users.length).toBe(4);
+
 describe("GET /api/articles", () => {
   test("should respond with an array of article objects", () => {
     return request(app)
@@ -83,9 +97,10 @@ describe("GET /api/articles", () => {
             votes: expect.any(Number),
           });
           expect(articles.length).toBe(12);
+
         });
       });
   });
 });
 
-describe("GET /api/users", () => {});
+
