@@ -18,7 +18,6 @@ exports.selectArticlesById = (articleID) => {
       [articleID]
     )
     .then(({ rows }) => {
-      console.log(rows[0]);
       if (rows.length === 0) {
         return Promise.reject({
           status: 404,
@@ -27,4 +26,14 @@ exports.selectArticlesById = (articleID) => {
       }
       return rows[0];
     });
+};
+
+exports.updateArticleById = (article_id, inc_votes) => {
+  let queryStr = `UPDATE articles
+SET votes = votes + $1
+WHERE article_id = $2
+RETURNING* ;`;
+  return db.query(queryStr, [inc_votes, article_id]).then(({ rows }) => {
+    return rows[0];
+  });
 };
