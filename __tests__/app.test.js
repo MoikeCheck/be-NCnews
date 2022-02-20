@@ -110,3 +110,37 @@ describe("GET /api/articles", () => {
       });
   });
 });
+
+describe("PATCH /api/articles/:article_id", () => {
+  test.only("status:200, responds with the undated article object while ignoring any keys other than inc_votes", () => {
+    const updatedArticle = {
+      inc_votes: 10,
+    };
+    return request(app)
+      .patch("/api/articles/3")
+      .send(updatedArticle)
+      .expect(200)
+      .then((response) => {
+        console.log(response)
+        expect(response.body.article).toEqual({
+          article_id: 3,
+          title: "Eight pug gifs that remind me of mitch",
+          topic: "mitch",
+          author: "icellusedkars",
+          body: "some gifs",
+          created_at: 1604394720000,
+          votes: 10,
+        });
+      });
+  });
+  test("status:400, responds with an error message when an empty vote is entered", () => {
+    const userVote = {};
+    return request(app)
+      .patch("/api/articles/3")
+      .send(userVote)
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg.toBe("Invalid input"));
+      });
+  });
+});
