@@ -10,7 +10,7 @@ exports.selectArticles = () => {
     });
 };
 
-exports.selectArticlesById = (articleID) => {
+exports.selectArticleById = (articleID) => {
   return db
     .query(
       `SELECT articles.*, (SELECT COUNT(*) FROM comments WHERE comments.article_id = articles.article_id) AS comment_count FROM articles
@@ -37,3 +37,4 @@ RETURNING* ;`;
     return rows[0];
   });
 };
+

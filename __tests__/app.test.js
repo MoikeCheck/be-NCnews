@@ -55,7 +55,7 @@ describe("GET /api/articles/:article_id", () => {
       .get(`/api/articles/notAnId`)
       .expect(400)
       .then(({ body }) => {
-        expect(body.msg).toBe("Invalid input");
+        expect(body.msg).toBe("Bad Request");
       });
   });
   test("status:404, responds with an error message when valid ID doesn't exist", () => {
@@ -112,35 +112,39 @@ describe("GET /api/articles", () => {
 });
 
 describe("PATCH /api/articles/:article_id", () => {
-  test.only("status:200, responds with the undated article object while ignoring any keys other than inc_votes", () => {
-    const updatedArticle = {
-      inc_votes: 10,
-    };
+  test("status: 201 - responds with an incremented vote property", () => {
+    const newVote = { inc_votes: 2 };
     return request(app)
-      .patch("/api/articles/3")
-      .send(updatedArticle)
-      .expect(200)
-      .then((response) => {
-        console.log(response)
-        expect(response.body.article).toEqual({
-          article_id: 3,
-          title: "Eight pug gifs that remind me of mitch",
+      .patch("/api/articles/1")
+      .send(newVote)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body.article).toEqual({
+          article_id: 1,
+          title: "Living in the shadow of a great man",
           topic: "mitch",
-          author: "icellusedkars",
-          body: "some gifs",
-          created_at: 1604394720000,
-          votes: 10,
+          author: "butter_bridge",
+          body: "I find this existence challenging",
+          created_at: expect.any(String),
+          votes: 102,
         });
       });
   });
+
   test("status:400, responds with an error message when an empty vote is entered", () => {
     const userVote = {};
     return request(app)
       .patch("/api/articles/3")
       .send(userVote)
       .expect(400)
-      .then(({ body: { msg } }) => {
-        expect(msg.toBe("Invalid input"));
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad Request");
       });
+  });
+});
+
+describe('GET /api/articles/:article_id/comments', () => {
+  test('should ', () => {
+    
   });
 });
