@@ -143,8 +143,23 @@ describe("PATCH /api/articles/:article_id", () => {
   });
 });
 
-describe('GET /api/articles/:article_id/comments', () => {
-  test('should ', () => {
-    
+describe("GET /api/articles/:article_id/comments", () => {
+  test("status 200 - responds with an array of objects", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then(({ body: { comments } }) => {
+        comments.forEach((comment) => {
+          expect(comment).toEqual(
+            expect.objectContaining({
+              comment_id: expect.any(Number),
+              votes: expect.any(Number),
+              created_at: expect.any(String),
+              author: expect.any(String),
+              body: expect.any(String),
+            })
+          );
+        });
+      });
   });
 });
