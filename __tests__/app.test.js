@@ -170,3 +170,41 @@ describe("GET /api/articles/:article_id/comments", () => {
       });
   });
 });
+
+describe("POST api/articles/article_id/comment", () => {
+  test("status 201 - responds with comment accepted", () => {
+    return request(app)
+      .post("/api/articles/7/comments")
+      .send({ username: "icellusedkars", body: "Test comment body" })
+      .expect(201)
+      .then(({ body: { comment } }) => {
+        expect(comment).toEqual(
+          expect.objectContaining({
+            body: expect.any(String),
+            votes: 0,
+            author: expect.any(String),
+            article_id: 7,
+            created_at: expect.any(String),
+          })
+        );
+      });
+  });
+  test("status 404 - responds with article not ", () => {
+    return request(app)
+      .post("/api/articles/9999/comments")
+      .send({ username: "icellusedkars", body: "Test comment body" })
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("No Article Found");
+      });
+  });
+  test("status 404 - responds with path not found for incorrect path", () => {
+    return request(app)
+      .post("/api/articles/7/comment")
+      .send({ username: "icellusedkars", body: "Test comment body" })
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Path not found");
+      });
+  });
+});

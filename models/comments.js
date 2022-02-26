@@ -16,3 +16,18 @@ exports.selectCommentsByArticleId = (articleId) => {
       return rows;
     });
 };
+
+exports.addComments = (body, username, article_id) => {
+  return db
+    .query(
+      `INSERT INTO comments (body, author, article_id) 
+      VALUES ($1, $2, $3) RETURNING *;`,
+      [body, username, article_id]
+    )
+    .then(({ rows }) => {
+      if (rows.length === 0) {
+        return Promise.reject({ status: 404, msg: "No Article Found" });
+      }
+      return rows[0];
+    });
+};
