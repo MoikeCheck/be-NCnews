@@ -26,7 +26,7 @@ describe("GET /api/topics", () => {
       .get("/api/topicss")
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe("path not found");
+        expect(body.msg).toBe("Path not found");
       });
   });
 });
@@ -93,20 +93,27 @@ describe("GET /api/articles", () => {
       .get("/api/articles")
       .expect(200)
       .then(({ body: { articles } }) => {
-        articles.forEach((element) => {
-          expect(element).toMatchObject({
-            author: expect.any(String),
-            title: expect.any(String),
-            article_id: expect.any(Number),
-            topic: expect.any(String),
-            created_at: expect.any(String),
-            votes: expect.any(Number),
-          });
-          expect(element).toEqual(
-            expect.not.objectContaining({ body: expect.any(String) })
+        articles.forEach((article) => {
+          expect(article).toEqual(
+            expect.objectContaining({
+              article_id: expect.any(Number),
+              title: expect.any(String),
+              topic: expect.any(String),
+              author: expect.any(String),
+              created_at: expect.any(String),
+              votes: expect.any(Number),
+            })
           );
         });
         expect(articles.length).toBe(12);
+      });
+  });
+  test("status 404 - responds with path not found for incorrect path", () => {
+    return request(app)
+      .get("/api/article")
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Path not found");
       });
   });
 });

@@ -9,7 +9,9 @@ exports.getArticles = (req, res, next) => {
     .then((articles) => {
       res.status(200).send({ articles });
     })
-    .catch(next);
+    .catch((err) => {
+      next(err);
+    });
 };
 
 exports.getArticleById = (req, res, next) => {
@@ -34,4 +36,3 @@ exports.patchArticleById = (req, res, next) => {
       next(err);
     });
 };
-
