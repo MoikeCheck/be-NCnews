@@ -1,16 +1,8 @@
-const {
-  selectCommentsByArticleId,
-  checkCommentsExistByArticleId,
-} = require("../models/comments");
+const { selectCommentsByArticleId } = require("../models/comments");
 
-exports.getCommentsByArticleId = (res, req, next) => {
-  // const { article_id } = req.params;
-  // Promise.all([
-  //   selectCommentsByArticleId(article_id),
-  //   checkCommentsExistByArticleId(article_id),
-  // ])
-  const { article_id } = req.params;
-  selectCommentsByArticleId(article_id)
+exports.getCommentsByArticleId = (req, res, next) => {
+  const { article_id: articleId } = req.params;
+  selectCommentsByArticleId(articleId)
     .then((comments) => {
       res.status(200).send({ comments });
     })

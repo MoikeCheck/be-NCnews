@@ -7,7 +7,6 @@ const {
   patchArticleById,
 } = require("./controllers/articles");
 const { getCommentsByArticleId } = require("./controllers/comments");
-
 const {
   handlePsqlErrors,
   handleServerErrors,
