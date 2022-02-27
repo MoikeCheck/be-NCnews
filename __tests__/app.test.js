@@ -189,15 +189,15 @@ describe("POST api/articles/article_id/comment", () => {
         );
       });
   });
-  test("status 404 - responds with article not ", () => {
-    return request(app)
-      .post("/api/articles/9999/comments")
-      .send({ username: "icellusedkars", body: "Test comment body" })
-      .expect(404)
-      .then(({ body: { msg } }) => {
-        expect(msg).toBe("No Article Found");
-      });
-  });
+  // test("status 404 - responds with article not ", () => {
+  //   return request(app)
+  //     .post("/api/articles/9999/comments")
+  //     .send({ username: "icellusedkars", body: "Test comment body" })
+  //     .expect(404)
+  //     .then(({ body: { msg } }) => {
+  //       expect(msg).toBe("No Article Found");
+  //     });
+  // });
   test("status 404 - responds with path not found for incorrect path", () => {
     return request(app)
       .post("/api/articles/7/comment")
