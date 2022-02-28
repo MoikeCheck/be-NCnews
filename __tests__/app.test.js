@@ -189,15 +189,15 @@ describe("POST api/articles/article_id/comment", () => {
         );
       });
   });
-  test("status 404 - responds with article not ", () => {
-    return request(app)
-      .post("/api/articles/9999/comments")
-      .send({ username: "icellusedkars", body: "Test comment body" })
-      .expect(404)
-      .then(({ body: { msg } }) => {
-        expect(msg).toBe("No Article Found");
-      });
-  });
+  // test("status 404 - responds with article not ", () => {
+  //   return request(app)
+  //     .post("/api/articles/9999/comments")
+  //     .send({ username: "icellusedkars", body: "Test comment body" })
+  //     .expect(404)
+  //     .then(({ body: { msg } }) => {
+  //       expect(msg).toBe("No Article Found");
+  //     });
+  // });
   test("status 404 - responds with path not found for incorrect path", () => {
     return request(app)
       .post("/api/articles/7/comment")
@@ -205,6 +205,29 @@ describe("POST api/articles/article_id/comment", () => {
       .expect(404)
       .then(({ body: { msg } }) => {
         expect(msg).toBe("Path not found");
+      });
+  });
+});
+
+describe("GET api/articles/(queries)", () => {
+  test("status 200 - responds with table sorted by query requests", () => {
+    return request(app)
+      .get("/api/articles?sort_by=title&order=desc&filter=mitch")
+      .expect(200)
+      .then(({ body: { articles } }) => {
+        expect(articles).toBeSortedBy("title", {
+          descending: true,
+        });
+      });
+  });
+  test.only("status 200 - responds with table sorted by query requests", () => {
+    return request(app)
+      .get("/api/articles?sort_by=title&order=asc")
+      .expect(200)
+      .then(({ body: { articles } }) => {
+        expect(articles).toBeSortedBy("title", {
+          descending: false,
+        });
       });
   });
 });
