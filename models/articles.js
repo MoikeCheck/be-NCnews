@@ -1,4 +1,3 @@
-.
 const db = require("../db/connection");
 
 exports.selectArticles = async (sort_by = "date", order = "desc", topic) => {
