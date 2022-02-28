@@ -1,3 +1,4 @@
+.
 const db = require("../db/connection");
 
 exports.selectArticles = async (sort_by = "date", order = "desc", topic) => {
@@ -25,7 +26,6 @@ exports.selectArticles = async (sort_by = "date", order = "desc", topic) => {
   ORDER BY ${sort_by} ${order};`;
 
   const { rows } = await db.query(queryStr, theTopic);
-  console.log(rows);
   return rows;
 };
 

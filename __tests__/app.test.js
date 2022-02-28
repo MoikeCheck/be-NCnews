@@ -88,7 +88,7 @@ describe("GET /api/users", () => {
 });
 
 describe("GET /api/articles", () => {
-  test("should respond with an array of article objects", () => {
+  test.skip("should respond with an array of article objects", () => {
     return request(app)
       .get("/api/articles")
       .expect(200)
@@ -220,7 +220,7 @@ describe("GET api/articles/(queries)", () => {
         });
       });
   });
-  test.only("status 200 - responds with table sorted by query requests", () => {
+  test("status 200 - responds with table sorted by query requests", () => {
     return request(app)
       .get("/api/articles?sort_by=title&order=asc")
       .expect(200)
