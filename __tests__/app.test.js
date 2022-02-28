@@ -88,26 +88,26 @@ describe("GET /api/users", () => {
 });
 
 describe("GET /api/articles", () => {
-  test.skip("should respond with an array of article objects", () => {
-    return request(app)
-      .get("/api/articles")
-      .expect(200)
-      .then(({ body: { articles } }) => {
-        articles.forEach((article) => {
-          expect(article).toEqual(
-            expect.objectContaining({
-              article_id: expect.any(Number),
-              title: expect.any(String),
-              topic: expect.any(String),
-              author: expect.any(String),
-              created_at: expect.any(String),
-              votes: expect.any(Number),
-            })
-          );
-        });
-        expect(articles.length).toBe(12);
-      });
-  });
+  // test.skip("should respond with an array of article objects", () => {
+  //   return request(app)
+  //     .get("/api/articles")
+  //     .expect(200)
+  //     .then(({ body: { articles } }) => {
+  //       articles.forEach((article) => {
+  //         expect(article).toEqual(
+  //           expect.objectContaining({
+  //             article_id: expect.any(Number),
+  //             title: expect.any(String),
+  //             topic: expect.any(String),
+  //             author: expect.any(String),
+  //             created_at: expect.any(String),
+  //             votes: expect.any(Number),
+  //           })
+  //         );
+  //       });
+  //       expect(articles.length).toBe(12);
+  //     });
+  // });
   test("status 404 - responds with path not found for incorrect path", () => {
     return request(app)
       .get("/api/article")
