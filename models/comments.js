@@ -31,3 +31,11 @@ exports.addComments = (body, username, article_id) => {
       return rows[0];
     });
 };
+
+exports.removeCommentsById = (comment_id) => {
+  return db
+    .query(`DELETE FROM comments WHERE comment_id = $1;`, [comment_id])
+    .then(() => {
+      return;
+    });
+};
