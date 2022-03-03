@@ -232,13 +232,16 @@ describe("GET api/articles/(queries)", () => {
   });
 });
 
-// describe("DELETE api/comments/:comment_id", () => {
-//   test.only("status 204 - responds with no content", () => {
-//     return request(app)
-//       .delete("/api/comments/2")
-//       .expect(204)
-//       .then(({ msg }) => {
-//         expect(msg).toBe(`Comment with id 2 deleted.`);
-//       });
-//   });
-// });
+describe("DELETE api/comments/:comment_id", () => {
+  test("status 204 - responds with no content", () => {
+    return request(app)
+      .delete("/api/comments/2")
+      .expect(204)
+      .then((body) => {
+        return body;
+      })
+      .then(({ body }) =>
+        expect(body).toEqual(expect.not.objectContaining([{ comment_id: 2 }]))
+      );
+  });
+});
