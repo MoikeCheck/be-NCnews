@@ -88,26 +88,27 @@ describe("GET /api/users", () => {
 });
 
 describe("GET /api/articles", () => {
-  // test.skip("should respond with an array of article objects", () => {
-  //   return request(app)
-  //     .get("/api/articles")
-  //     .expect(200)
-  //     .then(({ body: { articles } }) => {
-  //       articles.forEach((article) => {
-  //         expect(article).toEqual(
-  //           expect.objectContaining({
-  //             article_id: expect.any(Number),
-  //             title: expect.any(String),
-  //             topic: expect.any(String),
-  //             author: expect.any(String),
-  //             created_at: expect.any(String),
-  //             votes: expect.any(Number),
-  //           })
-  //         );
-  //       });
-  //       expect(articles.length).toBe(12);
-  //     });
-  // });
+  test("should respond with an array of article objects", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then(({ body: { articles } }) => {
+        articles.forEach((article) => {
+          expect(article).toEqual(
+            expect.objectContaining({
+              article_id: expect.any(Number),
+              title: expect.any(String),
+              topic: expect.any(String),
+              author: expect.any(String),
+              created_at: expect.any(String),
+              votes: expect.any(Number),
+            })
+          );
+        });
+        expect(articles.length).toBe(12);
+      });
+  });
+
   test("status 404 - responds with path not found for incorrect path", () => {
     return request(app)
       .get("/api/article")
@@ -118,34 +119,124 @@ describe("GET /api/articles", () => {
   });
 });
 
-describe("PATCH /api/articles/:article_id", () => {
-  test("status: 201 - responds with an incremented vote property", () => {
-    const newVote = { inc_votes: 2 };
+describe("GET /api/articles", () => {
+  test("200 - retrieves array of objects representing articles in db and loops through checking properties", () => {
     return request(app)
-      .patch("/api/articles/1")
-      .send(newVote)
-      .expect(201)
+      .get("/api/articles")
+      .expect(200)
       .then(({ body }) => {
-        expect(body.article).toEqual({
-          article_id: 1,
-          title: "Living in the shadow of a great man",
-          topic: "mitch",
-          author: "butter_bridge",
-          body: "I find this existence challenging",
-          created_at: expect.any(String),
-          votes: 102,
+        const { articles } = body;
+        expect(articles).toBeInstanceOf(Array);
+        expect(articles).toHaveLength(12);
+        articles.forEach((article) => {
+          expect(article.author).toEqual(expect.any(String));
+          expect(article.title).toEqual(expect.any(String));
+          expect(article.topic).toEqual(expect.any(String));
+          expect(article.created_at).toEqual(expect.any(String));
+          expect(article.votes).toEqual(expect.any(Number));
+          expect(article.article_id).toEqual(expect.any(Number));
+          expect(article.comment_count).toEqual(expect.any(String));
         });
       });
   });
-
-  test("status:400, responds with an error message when an empty vote is entered", () => {
-    const userVote = {};
+  test("status 200 - returns articles sorted by default created at desc", () => {
     return request(app)
-      .patch("/api/articles/3")
-      .send(userVote)
-      .expect(400)
+      .get("/api/articles")
+      .expect(200)
       .then(({ body }) => {
-        expect(body.msg).toBe("Bad Request");
+        const { articles } = body;
+        expect(articles).toBeSortedBy("created_at", {
+          descending: true,
+        });
+      });
+  });
+  test("status 200 - returns articles sorted by created_at ordered asc ", () => {
+    return request(app)
+      .get("/api/articles?order=asc")
+      .expect(200)
+      .then(({ body }) => {
+        const { articles } = body;
+        expect(articles).toBeSortedBy("created_at", {
+          descending: false,
+        });
+      });
+  });
+  test("status 200 - responds with sorted by title ordered asc ", () => {
+    return request(app)
+      .get("/api/articles?sort_by=title&order=asc")
+      .expect(200)
+      .then(({ body }) => {
+        const { articles } = body;
+        expect(articles).toBeSortedBy("title", {
+          descending: false,
+        });
+      });
+  });
+  test("status 200 - returns articles sorted by votes: def desc", () => {
+    return request(app)
+      .get("/api/articles?sort_by=votes")
+      .expect(200)
+      .then(({ body }) => {
+        const { articles } = body;
+        expect(articles).toBeSortedBy("votes", {
+          descending: true,
+        });
+      });
+  });
+  test("status 200 - returns articles sorted by title: def desc", () => {
+    return request(app)
+      .get("/api/articles?sort_by=title")
+      .expect(200)
+      .then(({ body }) => {
+        const { articles } = body;
+        expect(articles).toBeSortedBy("title", {
+          descending: true,
+        });
+      });
+  });
+  test("status 200 - returns articles sorted by author: def desc ", () => {
+    return request(app)
+      .get("/api/articles?sort_by=author")
+      .expect(200)
+      .then(({ body }) => {
+        const { articles } = body;
+        expect(articles).toBeSortedBy("author", {
+          descending: true,
+        });
+      });
+  });
+  test("status 200 - returns articles filtered by topic cats ", () => {
+    return request(app)
+      .get("/api/articles?topic=cats")
+      .expect(200)
+      .then(({ body }) => {
+        const { articles } = body;
+        expect(articles).toHaveLength(1);
+      });
+  });
+  test("status 200 - returns articles filtered by topic cats ", () => {
+    return request(app)
+      .get("/api/articles?topic=mitch")
+      .expect(200)
+      .then(({ body }) => {
+        const { articles } = body;
+        expect(articles).toHaveLength(11);
+      });
+  });
+  test("status 404 - topic doesnt exist", () => {
+    return request(app)
+      .get("/api/articles?topic=nottopic")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Topic not found");
+      });
+  });
+  test("404 - Path not found ", () => {
+    return request(app)
+      .get("/api/articless")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Path not found");
       });
   });
 });
