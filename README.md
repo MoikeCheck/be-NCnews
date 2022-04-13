@@ -4,7 +4,7 @@ Hosted version: https://zestnews.herokuapp.com/
 
 ## My goal for this project was to build a back-end API for my news app front-end project
 
-In this project a RESTful API where I made use of tools such as Node.js, Jest, Express, Supertest and PostgeSQL. The client perform GET, POST, PATCH and DELETE requests using the data stored.
+In this project a RESTful API where I made use of tools such as Node.js, Jest, Express, Supertest and PostgeSQL. The client performs GET, POST, PATCH and DELETE requests using the data stored.
 
 
 ## Instructions
