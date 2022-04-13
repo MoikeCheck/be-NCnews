@@ -17,6 +17,7 @@ const {
   handleServerErrors,
   customErrors,
 } = require("./errors/errors");
+const { describeEndpoints } = require("./controllers/api-endpoints");
 
 const app = express();
 app.use(cors());
@@ -30,6 +31,7 @@ app.get("/api/users", getUsers);
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 app.post("/api/articles/:article_id/comments", postComments);
 app.delete("/api/comments/:comment_id", deleteCommentsById);
+app.get("/api", describeEndpoints);
 
 app.all("/*", (req, res) => {
   res.status(404).send({ msg: "Path not found" });
