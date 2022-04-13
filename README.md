@@ -1,15 +1,44 @@
-# MLW News - API.
+# ZestNews - API.
 
-Welcome to news API, this project allows me to pass through data to my front-end project. I have created specific end points to give the front end user more accessability to said data, whilst also protecting against any SQL injection. 
+Hosted version: https://zestnews.herokuapp.com/
+
+## My goal for this project was to build a back-end API for my news app front-end project
+
+In this project a RESTful API where I made use of tools such as Node.js, Jest, Express, Supertest and PostgeSQL. The client perform GET, POST, PATCH and DELETE requests using the data stored.
+
 
 ## Instructions
 
-## Environment Setup
+1. Clone the repository
 
-You will need to create two .env files, .env.test and .env.development. Into each, add PGDATABASE=<database_name_here>, with the correct database name for that environment (see /db/setup.sql for the database names). Double check that these .env files are .gitignored.
+2. Install dependencies with npm install (or yarn)
 
-## Hosted Version Link
+    ` npm install`
 
-https://mlw-news.herokuapp.com/
+3. You will need to create two .env files, .env.test and .env.development. Into each, add PGDATABASE=<database_name_here>, with the correct database name for that environment (see /db/setup.sql for the database names). Double check that these .env files are .gitignored.
 
-## Minimum versions needed for Node.js & Postgres
+    .env.development
+
+    ` PGDATABASE=nc_news`
+
+     .env.test
+
+   ` PGDATABASE=nc_news_test`
+
+4. Seed local database
+
+   `npm run setup-dbs`
+
+5. Run tests with
+
+   `npm test`
+
+6. Start server with
+
+   `npm start`
+
+## Minimum requirements
+
+Node.js: v17.3.0
+
+Postgres: 14.1
